@@ -72,21 +72,19 @@
     <tr>
         <th scope="col">#</th>
         <th scope="col">Name</th>
-        <th scope="col">Description</th>
     </tr>
     </thead>
 
-    @foreach($products as $product)
+    @foreach($categories as $category)
         <tr>
 
-            <th scope="row">{{$product->id}}</th>
-            <td>{{$product->name}}</td>
-            <td>{{$product->description}}</td>
+            <th scope="row">{{$category->id}}</th>
+            <td>{{$category->name}}</td>
             <td>
-                <a href="{{route('edit',$product -> id)}}" class="btn btn-success">Edit</a>
+                <a href="{{route('editCat',$category -> id)}}" class="btn btn-success">Edit</a>
             </td>
             <td>
-                <a href="{{route('delete',$product -> id)}}" class="btn btn-danger">Delete</a>
+                <a href="{{route('deleteCat',$category -> id)}}" class="btn btn-danger">Delete</a>
             </td>
         </tr>
         @endforeach

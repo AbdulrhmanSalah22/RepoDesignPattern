@@ -2,46 +2,45 @@
 
 namespace App\Http\Controllers;
 
-use App\Entities\Product;
+use App\Entities\Category;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use Prettus\Validator\Contracts\ValidatorInterface;
 use Prettus\Validator\Exceptions\ValidatorException;
-use App\Http\Requests\ProductCreateRequest;
-use App\Http\Requests\ProductUpdateRequest;
-use App\Repositories\ProductRepository;
-use App\Validators\ProductValidator;
+use App\Http\Requests\CategoryCreateRequest;
+use App\Http\Requests\CategoryUpdateRequest;
+use App\Repositories\CategoryRepository;
+use App\Validators\CategoryValidator;
 
 /**
- * Class ProductsController.
+ * Class CategoriesController.
  *
  * @package namespace App\Http\Controllers;
  */
-class ProductsController extends Controller
+class CategoriesController extends Controller
 {
     /**
-     * @var ProductRepository
+     * @var CategoryRepository
      */
     protected $repository;
 
+    /**
+     * @var CategoryValidator
+     */
+
 
     /**
-     * ProductsController constructor.
+     * CategoriesController constructor.
      *
-     * @param ProductRepository $repository
-
+     * @param CategoryRepository $repository
+     *
      */
-    public function __construct(ProductRepository $repository)
+    public function __construct(CategoryRepository $repository)
     {
         $this->repository = $repository;
-
     }
 
-    public function getall(){
-
-        return $this->repository->all();
-    }
     /**
      * Display a listing of the resource.
      *
@@ -50,41 +49,42 @@ class ProductsController extends Controller
     public function index()
     {
         $this->repository->pushCriteria(app('Prettus\Repository\Criteria\RequestCriteria'));
-        $products = $this->repository->all();
+        $categories = $this->repository->all();
 
         if (request()->wantsJson()) {
 
             return response()->json([
-                'data' => $products,
+                'data' => $categories,
             ]);
         }
 
-        return view('products.show', compact('products'));
+        return view('categories.show', compact('categories'));
     }
 
     public function create(){
-        return view('products.create');
+
+        return view('categories.create');
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  ProductCreateRequest $request
+     * @param  CategoryCreateRequest $request
      *
      * @return \Illuminate\Http\Response
      *
      * @throws \Prettus\Validator\Exceptions\ValidatorException
      */
-    public function store(ProductCreateRequest $request)
+    public function store(CategoryCreateRequest $request)
     {
         try {
 
 
-            $product = $this->repository->create($request->all());
+            $category = $this->repository->create($request->all());
 
             $response = [
-                'message' => 'Product created.',
-                'data'    => $product->toArray(),
+                'message' => 'Category created.',
+                'data'    => $category->toArray(),
             ];
 
             if ($request->wantsJson()) {
@@ -114,16 +114,16 @@ class ProductsController extends Controller
      */
     public function show($id)
     {
-        $product = $this->repository->find($id);
+        $category = $this->repository->find($id);
 
         if (request()->wantsJson()) {
 
             return response()->json([
-                'data' => $product,
+                'data' => $category,
             ]);
         }
 
-        return view('products.show', compact('product'));
+        return view('categories.show', compact('category'));
     }
 
     /**
@@ -135,30 +135,31 @@ class ProductsController extends Controller
      */
     public function edit($id)
     {
-        $product = $this->repository->find($id);
+        $category = $this->repository->find($id);
 
-        return view('products.edit', compact('product'));
+        return view('categories.edit', compact('category'));
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  ProductUpdateRequest $request
+     * @param  CategoryUpdateRequest $request
      * @param  string            $id
      *
      * @return Response
      *
      * @throws \Prettus\Validator\Exceptions\ValidatorException
      */
-    public function update(ProductUpdateRequest $request, $id)
+    public function update(CategoryUpdateRequest $request, $id)
     {
         try {
 
-            $product = $this->repository->update($request->all(), $id);
+
+            $category = $this->repository->update($request->all(), $id);
 
             $response = [
-                'message' => 'Product updated.',
-                'data'    => $product->toArray(),
+                'message' => 'Category updated.',
+                'data'    => $category->toArray(),
             ];
 
             if ($request->wantsJson()) {
@@ -196,16 +197,16 @@ class ProductsController extends Controller
         if (request()->wantsJson()) {
 
             return response()->json([
-                'message' => 'Product deleted.',
+                'message' => 'Category deleted.',
                 'deleted' => $deleted,
             ]);
         }
 
-        return redirect()->back()->with('message', 'Product deleted.');
+        return redirect()->back()->with('message', 'Category deleted.');
     }
 
-    public function getProductCategories(){
-       $prod =  Product::with('Categories')->find( 10);
-       return $prod ;
+    public  function getCategoryProd(){
+       $category = Category::with('Products')->find(3);
+       return $category ;
     }
 }

@@ -7,11 +7,11 @@ use Prettus\Repository\Contracts\Transformable;
 use Prettus\Repository\Traits\TransformableTrait;
 
 /**
- * Class Product.
+ * Class Category.
  *
  * @package namespace App\Entities;
  */
-class Product extends Model implements Transformable
+class Category extends Model implements Transformable
 {
     use TransformableTrait;
 
@@ -20,12 +20,13 @@ class Product extends Model implements Transformable
      *
      * @var array
      */
-    protected $fillable = ['id','name','description'];
+    protected $fillable = ['id', 'name'];
     protected $hidden =['pivot'];
     public $timestamps = false ;
 
-    public function Categories(){
-       return $this->belongsToMany('App\Entities\Category','product_category','product_id','category_id');
+    public function Products(){
+       return $this->belongsToMany('App\Entities\Product','product_category','category_id','product_id');
     }
+
 
 }

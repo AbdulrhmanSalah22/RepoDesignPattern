@@ -11,17 +11,12 @@
 
 <body>
 <div>
-    <form method="POST" action="{{route('Store')}}">
+    <form method="POST" action="{{route('UpdateCat',$category -> id )}}">
         @csrf
         <div class="form-group">
             <label for="exampleInputEmail1">Name</label>
-            <input type="text" class="form-control" name="name"  placeholder="Enter Product Name">
+            <input type="text" class="form-control" name="name" value="{{$category -> name}}" placeholder="Enter Category Name">
         </div>
-        <div class="form-group">
-            <label for="exampleInputEmail1">Description</label>
-            <input type="text" class="form-control" name="description" placeholder="Enter Product Description">
-        </div>
-
         <button type="submit" class="btn btn-primary">Submit</button>
     </form>
 </div>
